@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Advanced Search</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <style>
+    .header {
+      background: #f1f1f1;
+      min-width:1002px;
+      height: 40px;
+      width:100%;
+      margin: 0px;
+      padding: 5px;
+      vertical-align: middle;
+    }
+
+    .appbar{
+      color: #d93025;
+      font-size: 28px;
+      padding: 25px;
+      border-bottom-style: solid;
+  	  border-color: #f1f1f1;
+      border-width: thin;
+      overflow: hidden;
+      display: block;
+    }
+
+    .formtotal{
+      max-width: 1140px;
+      min-width: 200px;
+      width: 96%;
+      margin: 40px 2% 0 45px;
+      vertical-align: baseline;
+      }
+
+    .titulo-left{
+      float: left;
+      display:inline-block;
+      min-width: 167 px;
+      width: 16%;
+      height: 42px;
+      font-weight: 500;
+      }
+    .titulo-right{
+        float: left;
+        display:inline-block;
+        min-width: 167 px;
+        width: 20%;
+        height: 42px;
+        font-weight: 500;
+      }
+    .space{
+        float: left;
+        display: inline-block;
+        min-width: 167px;
+        min-height: 41px;
+        width: 50%;
+      }
+    .formstructure{
+      width:100%;
+      clear: both;
+    }
+    .caja-left{
+      float: left;
+      display: inline-block;
+      min-width: 167px;
+      height: 42px;
+      font-size: 13px;
+      line-height: 16px;
+      vertical-align: middle;
+    }
+    .text{
+      height: 30px;
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 100%;
+    }
+    .inputbox{
+      float: left;
+      display: inline-block;
+      min-width: 167px;
+      min-height: 41px;
+      vertical-align: middle;
+      width: 50%;
+    }
+    .caja-right{
+      float: left;
+      display: inline-block;
+      width: 32%;
+      min-width: 160px;
+      font-size: 11px;
+      padding-left: 5px;
+      vertical-align: middle;
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div>
+      <img vertical-align="middle" height="40px" src="https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_284x96dp.png">
+    </div>
+    <div class="w3-display-topright">
+      <a href="file:///Users/albertomartin/Documents/WPJ/WPJ/MainSearch.html" class="w3-bar-item w3-button w3-padding-16">Search</a>
+       </div>
+  </div>
+  <div class="appbar">
+    <label style="margin-left:10px">Advanced Search</label>
+  </div>
+
+  <div class="formtotal">
+
+<! Form header -->
+
+  <form action= "https://www.google.com/search" method="GET" name="f" _lpchecked="1">
+    <div>
+      <div class="titulo-left">
+        <p>Find pages with...</p>
+      </div>
+      <div class="space"> </div>
+      <div class="titulo-right">
+        <p>To do this in the search box</P>
+     </div>
+    </div>
+<! Form input cells -->
+      <div class="formstructure">
+        <div class="caja-left">
+          <div class="text">
+            <label for"all"> all these words: </label>
+          </div>
+        </div>
+        <div class="inputbox">
+          <input style="width: 100%" class="w3-round w3-input w3-border" type="text" name="as_q" value="">
+        </div>
+        <div class="caja-right">
+          <div class="text">
+            "Type the important words"
+            <span>tri-colour rat terrier</span>
+          </div>
+        </div>
+
+<! Form input cells -->
+      <div class="formstructure">
+        <div class="caja-left">
+          <div class="text">
+            <label for"all"> this exact word or phrase </label>
+          </div>
+        </div>
+        <div class="inputbox">
+          <input style="width: 100%" class="w3-round w3-input w3-border" type="text" name="as_epq" value="">
+        </div>
+        <div class="caja-right">
+          <div class="text">
+            "Put exact words in quotes: "
+            <span>tri-colour rat terrier</span>
+          </div>
+        </div>
+      </div>
+<! Form input cells -->
+      <div class="formstructure">
+        <div class="caja-left">
+          <div class="text">
+            <label for"all"> any of these words: </label>
+          </div>
+        </div>
+        <div class="inputbox">
+          <input style="width: 100%" class="w3-round w3-input w3-border" type="text" name="as_oq" value="">
+        </div>
+        <div class="caja-right">
+          <div class="text">
+            "Type OR between all the words you want: miniature OR standard"
+          </div>
+        </div>
+      </div>
+
+<! Form input cells -->
+      <div class="formstructure">
+        <div class="caja-left">
+          <div class="text">
+            <label for"all"> none of these words: </label>
+          </div>
+        </div>
+        <div class="inputbox">
+          <input style="width: 100%" class="w3-round w3-input w3-border" type="text" name="as_eq" value="">
+        </div>
+        <div class="caja-right">
+          <div class="text">
+            "Put a minus sign just before words that you don't want:"
+            <span>-rodent, -"Jack Russell"</span>
+          </div>
+        </div>
+      </div>
+
+<! Form input cells -->
+      <div class="formstructure">
+        <div class="caja-left"></div>
+        <div class="inputbox" style="text-align:right">
+          <input type="hidden" name="safe" value="Images">
+          <input type="hidden" name="as_filetype">
+          <input type="hidden" name="tbs" value>
+          <input class="w3-button w3-blue" style="margin-top: 20px" type="submit" value="Advanced Search">
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
