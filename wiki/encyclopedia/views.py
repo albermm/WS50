@@ -5,67 +5,66 @@ from django.urls import reverse
 
 from . import util
 
-class NewTaskForm(forms.Form):
-    task = forms.CharField(initial="Search Encyclopedia")
+class NewSearchForm(forms.Form):
+    query = forms.CharField(label=False, widget=forms.TextInput(attrs={'placeholder': 'Search Encyclopedia'}))    
 
 
 # Create your views here.
-
-def index(request):
-    return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries()
-    })
-
-def title(request, title):
-    content = util.get_entry(title)
-    if content == None:
-        return render(request, "encyclopedia/error.html")
-    else:    
-        return render(request, "encyclopedia/title.html", {"title":title, "content":content})
-
-
-
-
-
-tasks = []
-
-def add(request):
-    if request.method == "POST":
-        form = NewTaskForm(request.POST)
-        if form.is_valid():
-            task = form.cleaned_data["task"]
-            tasks.append(task)
-            return HttpResponseRedirect(reverse("wiki:index"))
-        else:
-            return render(request, "encyclopedia/add.html", {
-                "form" : form
-            })
-
-    return render(request, "encyclopedia/add.html", {
-        "form" : NewTaskForm(auto_id=False)
-    })
-
-
-
-
 '''
-class NewSearchForm(forms.Form):
-    search = forms.CharField(label="New Search")
-searches = []
-def search(request):
+def index(request):
     if request.method == "POST":
         form = NewSearchForm(request.POST)
         if form.is_valid():
-            search = form.cleaned_data["search"]
-            searches.append(search)
-            return HttpResponseRedirect(reverse("wiki:search"))
+            query = form.cleaned_data["query"]
+            return title(request, query)
         else:
-            return render(request, "wiki/index.html",{
+            return render(request, "encyclopedia/index.html", {
                 "form" : form
             })
-    return render(request, "wiki/index.html", {
-        "form" : NewSearchForm()
-    })
+           
     
+    return render(request, "encyclopedia/index.html", {
+             "entries": util.list_entries(),
+             "form" : NewSearchForm(auto_id=False)
+    })
+'''
+
+
+
+def index(request):
+    query = request.GET.get('q')
+    if query:
+        content = util.get_entry(query)
+        return render(request, "encyclopedia/title.html", {"title":query, "content":content})   
+    else:
+        return render(request, "encyclopedia/index.html", {
+            "entries": util.list_entries()
+        })    
+
 
 '''
+def title(request, title):
+    query = request.GET.get('q')
+    if query:
+        content = util.get_entry(query)
+        return render(request, "encyclopedia/title.html", {"title":query, "content":content})   
+    else:  
+        if util.get_entry(title) == None:
+            return render(request, "encyclopedia/error.html")
+        else:   
+            return render(request, "encyclopedia/title.html", {"title":title, "content":content}) 
+'''
+
+def title(request, title):
+    query = request.GET.get('q')
+    if query:
+        content = util.get_entry(query)
+        return render(request, "encyclopedia/title.html", {"title":query, "content":content})   
+    else:  
+        content = util.get_entry(title)
+        if util.get_entry(title) == None:
+            return render(request, "encyclopedia/error.html")
+        else:   
+            return render(request, "encyclopedia/title.html", {"title":title, "content":content}) 
+
+
