@@ -42,18 +42,6 @@ def index(request):
         })    
 
 
-'''
-def title(request, title):
-    query = request.GET.get('q')
-    if query:
-        content = util.get_entry(query)
-        return render(request, "encyclopedia/title.html", {"title":query, "content":content})   
-    else:  
-        if util.get_entry(title) == None:
-            return render(request, "encyclopedia/error.html")
-        else:   
-            return render(request, "encyclopedia/title.html", {"title":title, "content":content}) 
-'''
 
 def title(request, title):
     query = request.GET.get('q')
