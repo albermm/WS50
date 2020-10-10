@@ -8,6 +8,9 @@ from . import util
 class NewSearchForm(forms.Form):
     query = forms.CharField(label=False, widget=forms.TextInput(attrs={'placeholder': 'Search Encyclopedia'}))    
 
+class NewPageForm(forms.Form):
+    query = forms.CharField(label=False, widget=forms.TextInput(attrs={'placeholder': 'Search Encyclopedia'}))    
+
 
 # Create your views here.
 '''
@@ -28,9 +31,14 @@ def index(request):
              "form" : NewSearchForm(auto_id=False)
     })
 '''
-
+#request.session["pages"]
 
 def index(request):
+    if "pages" not in request.session:
+        request.session["pages"] = []
+        return render(request, "encyclopedia/index.html", {
+            "pages": request.session["pages"]
+        })
     query = request.GET.get('q')
     if query:
         title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
@@ -68,6 +76,22 @@ def search(request, query):
         resultado = {"query": "", "content":"", "result":result}
         print ("resultado: ", result)
         return resultado
+
+
+def add(request):
+    if request.method == "POST":
+        form = NewPageForm(request.POST)
+        if form.is_valid():
+            page = form.cleaned_data["page"]
+            request.session["pages"] += [page]
+            return HttpResponseRedirect(reverse("wiki:index"))
+        else:
+            return render(request, "encyclopedia/add.html", {
+                "form": form
+            })
+    return render(request, "encyclopedia/add.html", {
+        "form": NewPageForm()
+    })
    
 
 
