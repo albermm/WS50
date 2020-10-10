@@ -30,12 +30,26 @@ def index(request):
 '''
 
 
-
+'''
 def index(request):
     query = request.GET.get('q')
     if query:
         content = util.get_entry(query)
         return render(request, "encyclopedia/title.html", {"title":query, "content":content})   
+    else:
+        return render(request, "encyclopedia/index.html", {
+            "entries": util.list_entries()
+        })    
+'''
+
+    #return render(request, "encyclopedia/title.html", {"title":query, "content":content}) 
+
+def index(request):
+    query = request.GET.get('q')
+    if query:
+        content = util.search(request, query)
+        print (content)
+        return render(request, "encyclopedia/title.html", {"title": content, "content":content})
     else:
         return render(request, "encyclopedia/index.html", {
             "entries": util.list_entries()
@@ -46,7 +60,7 @@ def index(request):
 def title(request, title):
     query = request.GET.get('q')
     if query:
-        content = search(request, query)
+        content = util.search(request, query)
         return render(request, "encyclopedia/title.html", {"content":content})
     else:  
         content = util.get_entry(title)
@@ -56,9 +70,3 @@ def title(request, title):
             return render(request, "encyclopedia/title.html", {"title":title, "content":content}) 
     
 
-def search(request,query):
-    #query = request.GET.get('q')
-    print(query)
-    content = util.get_entry(query)
-    return(content)
-    #return render(request, "encyclopedia/title.html", {"title":query, "content":content}) 
