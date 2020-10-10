@@ -45,9 +45,8 @@ def index(request):
 def title(request, title):
     query = request.GET.get('q')
     if query:
-        query = search(request, query)
-        content = util.get_entry(query)
-        return render(request, "encyclopedia/title.html", {"content":content})
+        title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
+        return render(request, "encyclopedia/title.html", {"title":title, "content":content, "result":result}) 
     else:  
         content = util.get_entry(title)
         if util.get_entry(title) == None:
@@ -70,3 +69,5 @@ def search(request, query):
         print ("resultado: ", result)
         return resultado
    
+
+

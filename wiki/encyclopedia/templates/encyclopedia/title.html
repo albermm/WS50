@@ -3,8 +3,14 @@
 
 
 {% block body %}
+{% if title %}
 <h1>{{ title }}</h1>
-
+    
     <p>{{ content }} </p>
+{% endif %}
+{% if result %}  
+<h3>Results of your search...</h3>
+    <p></p>
     <a href="/{{ result }}"> {{ result }}</a>
+{% endif %}
 {% endblock %}
