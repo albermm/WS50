@@ -30,26 +30,11 @@ def index(request):
 '''
 
 
-'''
 def index(request):
     query = request.GET.get('q')
     if query:
-        content = util.get_entry(query)
-        return render(request, "encyclopedia/title.html", {"title":query, "content":content})   
-    else:
-        return render(request, "encyclopedia/index.html", {
-            "entries": util.list_entries()
-        })    
-'''
-
-    #return render(request, "encyclopedia/title.html", {"title":query, "content":content}) 
-
-def index(request):
-    query = request.GET.get('q')
-    if query:
-        content = util.search(request, query)
-        print (content)
-        return render(request, "encyclopedia/title.html", {"title": content, "content":content})
+        title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
+        return render(request, "encyclopedia/title.html", {"title":title, "content":content, "result":result}) 
     else:
         return render(request, "encyclopedia/index.html", {
             "entries": util.list_entries()
@@ -60,7 +45,8 @@ def index(request):
 def title(request, title):
     query = request.GET.get('q')
     if query:
-        content = util.search(request, query)
+        query = search(request, query)
+        content = util.get_entry(query)
         return render(request, "encyclopedia/title.html", {"content":content})
     else:  
         content = util.get_entry(title)
@@ -70,3 +56,17 @@ def title(request, title):
             return render(request, "encyclopedia/title.html", {"title":title, "content":content}) 
     
 
+def search(request, query):
+    lista = util.list_entries()
+    print ("query: ", query)
+    print ("lista: ", lista)
+    result = next((s for s in lista if query in s), None)
+    content = util.get_entry(query)
+    if query in lista:
+        resultado = {"query": query, "content":content, "result":""}
+        return resultado
+    elif result:
+        resultado = {"query": "", "content":"", "result":result}
+        print ("resultado: ", result)
+        return resultado
+   

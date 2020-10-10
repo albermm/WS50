@@ -37,14 +37,3 @@ def get_entry(title):
     except FileNotFoundError:
         return None
 
-
-def search(request, query):
-    lista = list_entries()
-    print ("query: ", query)
-    print ("lista: ", lista)
-    result = next((s for s in lista if query in s), None)
-    print (result)
-    if result:
-        return result
-    else:
-        return render(request, "encyclopedia/error.html")
