@@ -72,8 +72,15 @@ def add(request):
         if form.is_valid():
             title = form.cleaned_data['title']
             content = form.cleaned_data['textarea']
-            util.save_entry(title, content)
-            return HttpResponseRedirect('/')
+            exist = util.get_entry(title)
+            print(f"exist {exist} y titulo {title}")
+            if exist == None:
+                util.save_entry(title, content)
+                print("lo guardo")
+                return render(request, "encyclopedia/title.html", {"title":title, "content":content}) 
+            else:
+                print("Existe ya")
+                return render(request, "encyclopedia/error.html")
             #page = form.save()#(commit=False)
             #page = form.cleaned_data["page"]
             #request.session["pages"] += [page]
