@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django import forms
 from django.urls import reverse
 from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 
 from . import util
 
@@ -11,30 +12,13 @@ class NewSearchForm(forms.Form):
 
 class NewPageForm(forms.Form):
     title = forms.CharField(label= 'Title')
-    textarea = forms.CharField(help_text= ' write encyclopedia content', widget=forms.Textarea(attrs={"rows":10}))
-    '''
+    textarea = forms.CharField(help_text= ' write encyclopedia content', widget=forms.Textarea(attrs={"cols": 5,"rows":10}))
     helper = FormHelper()
-    self.helper = FormHelper(self)
-    self.helper.add_input(submit(('submit', 'Submit'))
-    self.helper.form_method = 'POST'
+    helper.form_method = 'POST'
+    helper.add_input(Submit('submit', 'Submit'))
     
-
-{% block body %}
-    <h1>Create Encyclopedia New Entry</h1>
-    {% load crispy_forms_tags %}
-    <form method="POST">
-        {% csrf_token %}
-              
-    </form>
   
-    {% crispy form %}
-    <button type="button" class="btn btn-primary btn-lg">Save</button>   
-
-{% endblock %}
-
-
-    
-    '''
+ 
 # Create your views here.
 
 def index(request):

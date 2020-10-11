@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    margin-left: 30px;
     background-color: white;
 }
 
@@ -11,6 +12,8 @@ h1 {
     margin-top: 0px;
     padding-top: 20px;
 }
+
+
 
 textarea {
     height: 90vh;
@@ -35,13 +38,4 @@ textarea {
 
 .sidebar h2 {
     margin-top: 5px;
-}
-
-.formtext {
-    background-color: #dd15bc;
-    min-width: 167px;
-    height: auto;
-    min-height: 350px;
-    padding: 5px;
-    margin: auto;
 }
