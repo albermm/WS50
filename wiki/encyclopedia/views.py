@@ -12,8 +12,29 @@ class NewSearchForm(forms.Form):
 class NewPageForm(forms.Form):
     title = forms.CharField(label= 'Title')
     textarea = forms.CharField(help_text= ' write encyclopedia content', widget=forms.Textarea(attrs={"rows":10}))
+    '''
     helper = FormHelper()
+    self.helper = FormHelper(self)
+    self.helper.add_input(submit(('submit', 'Submit'))
+    self.helper.form_method = 'POST'
+    
 
+{% block body %}
+    <h1>Create Encyclopedia New Entry</h1>
+    {% load crispy_forms_tags %}
+    <form method="POST">
+        {% csrf_token %}
+              
+    </form>
+  
+    {% crispy form %}
+    <button type="button" class="btn btn-primary btn-lg">Save</button>   
+
+{% endblock %}
+
+
+    
+    '''
 # Create your views here.
 
 def index(request):
@@ -65,11 +86,15 @@ def add(request):
     if request.method == "POST":
         form = NewPageForm(request.POST)
         if form.is_valid():
-            page = form.save()#(commit=False)
-            page = form.cleaned_data["page"]
-            request.session["pages"] += [page]
-            page.save() 
-            return redirect('page_detail', id=page.id)
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['textarea']
+            util.save_entry(title, content)
+            return HttpResponseRedirect('/')
+            #page = form.save()#(commit=False)
+            #page = form.cleaned_data["page"]
+            #request.session["pages"] += [page]
+            #page.save() 
+            #return redirect('page_detail', id=page.id)
             #return HttpResponseRedirect(reverse("wiki:index"))
         else:
             form = NewPageForm()

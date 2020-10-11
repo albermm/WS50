@@ -37,7 +37,7 @@ textarea {
     margin-top: 5px;
 }
 
-formtext {
+.formtext {
     background-color: #dd15bc;
     min-width: 167px;
     height: auto;

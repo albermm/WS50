@@ -12,13 +12,16 @@
 
 {% block body %}
     <h1>Create Encyclopedia New Entry</h1>
-    {% load crispy_forms_tags %}
+    
     <form method="POST">
         {% csrf_token %}
-               
-        
-       
+        <input class="text" type="text" name="title" placeholder="title">
+        <input type="text" name="textarea">Contenido</input>
+        <input type="submit">submit</input>        
     </form>
-    {% crispy form %}
-    <button type="submit">Save</button>
+  
+  
+   
+
 {% endblock %}
+
