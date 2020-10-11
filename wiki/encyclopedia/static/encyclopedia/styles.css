@@ -36,3 +36,12 @@ textarea {
 .sidebar h2 {
     margin-top: 5px;
 }
+
+formtext {
+    background-color: #dd15bc;
+    min-width: 167px;
+    height: auto;
+    min-height: 350px;
+    padding: 5px;
+    margin: auto;
+}
