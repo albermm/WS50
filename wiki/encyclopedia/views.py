@@ -29,14 +29,15 @@ class NewEntryForm(forms.Form):
  
 # Create your views here.
 
+
 def index(request):
-    '''
-    if "pages" not in request.session:
-        request.session["pages"] = []
+    
+    if "page" not in request.session:
+        request.session["page"] = []
         return render(request, "encyclopedia/index.html", {
-            "pages": request.session["pages"]
+            "page": request.session["page"]
         })
-    '''        
+          
     query = request.GET.get('q')
     if query:
         title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
@@ -89,12 +90,7 @@ def add(request):
             else:
                 print("Existe ya")
                 return render(request, "encyclopedia/error.html")
-            #page = form.save()#(commit=False)
-            #page = form.cleaned_data["page"]
-            #request.session["pages"] += [page]
-            #page.save() 
-            #return redirect('page_detail', id=page.id)
-            #return HttpResponseRedirect(reverse("wiki:index"))
+          
         else:
             form = NewPageForm()
             return render(request, "encyclopedia/add.html", {
@@ -106,16 +102,20 @@ def add(request):
    
 
 def edit(request):
-    title = request.POST.get('edition')
-    content = util.get_entry(title)
-    print(f"titulo is {title} and content is {content}")
+    page = request.POST.get('edition')
+    
+    content = util.get_entry(page)
+    print(f"titulo is {page} and content is {content}")
+    #form = NewEntryForm()
     if request.method == "POST":
         form = NewEntryForm(request.POST)
         if form.is_valid():
             content = form.cleaned_data['textarea']
-            util.save_entry(title, content)
+            page = request.session["page"]
+            print(page)
+            util.save_entry(page, content)
             print("lo guardo")
-            return render(request, "encyclopedia/title.html", {"title":title, "content":content}) 
+            return render(request, "encyclopedia/title.html", {"title":page, "content":content}) 
         else:
             form = NewEntryForm()
             return render(request, "encyclopedia/edit.html", {
@@ -126,29 +126,10 @@ def edit(request):
             "form": NewEntryForm()
         })
    
-   
+            #page = form.save()#(commit=False)
+            #page = form.cleaned_data["page"]
+            #request.session["pages"] += [page]
+            #page.save() 
+            #return redirect('page_detail', id=page.id)
+            #return HttpResponseRedirect(reverse("wiki:index"))
     
-    
-    
-    '''   
-    title = request.POST.get('edition')
-    content = util.get_entry(title)
-    print(f"edition es {title}, contenido es {content}")
-    form = NewEntryForm()
-    if request.method == "POST":
-        form = NewEntryForm(request.POST) 
-        content = form.cleaned_data['textarea']
-        return render(request, "encyclopedia/index.html", {
-            "title": content
-        }) 
-    else:
-        form = NewEntryForm()
-        return render(request, "encyclopedia/edit.html") 
-     #new = util.get_entry(query)
-    #if query in lista:
-    
-    if save is not title:
-        return render(request, "encyclopedia/title.html", {
-            "title": title, "content":content
-            }) 
-    '''
