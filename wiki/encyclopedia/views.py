@@ -31,13 +31,14 @@ class NewEntryForm(forms.Form):
 
 
 def index(request):
-    
+    page = 'empty'
+    '''
     if "page" not in request.session:
         request.session["page"] = []
         return render(request, "encyclopedia/index.html", {
             "page": request.session["page"]
         })
-          
+    '''         
     query = request.GET.get('q')
     if query:
         title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
@@ -50,6 +51,8 @@ def index(request):
 
 
 def title(request, title):
+        
+
     query = request.GET.get('q')
     if query:
         title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
@@ -59,6 +62,9 @@ def title(request, title):
         if util.get_entry(title) == None:
             return render(request, "encyclopedia/error.html")
         else:   
+            request.session['page'] = title
+            page = request.session['page']
+            print(f"page en title es {page}")
             return render(request, "encyclopedia/title.html", {"title":title, "content":content}) 
     
 
@@ -102,17 +108,17 @@ def add(request):
    
 
 def edit(request):
-    page = request.POST.get('edition')
-    
-    content = util.get_entry(page)
-    print(f"titulo is {page} and content is {content}")
-    #form = NewEntryForm()
+    '''
+    temp = request.POST.get('edition')
+    content = util.get_entry(temp)
+    print(f"titulo is {temp} and content is {content}")
+   '''
     if request.method == "POST":
         form = NewEntryForm(request.POST)
         if form.is_valid():
             content = form.cleaned_data['textarea']
-            page = request.session["page"]
-            print(page)
+            page = request.session['page']
+            print(f"edition se llama {content} and page is {page}")
             util.save_entry(page, content)
             print("lo guardo")
             return render(request, "encyclopedia/title.html", {"title":page, "content":content}) 
