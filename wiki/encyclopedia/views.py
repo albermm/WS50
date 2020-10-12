@@ -16,7 +16,8 @@ class NewPageForm(forms.Form):
     helper = FormHelper()
     helper.form_method = 'POST'
     helper.add_input(Submit('submit', 'Submit'))
-    
+
+   
   
  
 # Create your views here.
@@ -41,6 +42,8 @@ def index(request):
 
 
 def title(request, title):
+    edition = request.GET.get('edition')
+    print(f"edition es {edition}")
     query = request.GET.get('q')
     if query:
         title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
@@ -90,4 +93,10 @@ def add(request):
     })
    
 
-
+def edit(request):
+    edition = request.POST.get('edition')
+    print(f"edition es {edition}")
+    if edition:
+        return render(request, "encyclopedia/edit.html", {
+            "edition": edition
+        })

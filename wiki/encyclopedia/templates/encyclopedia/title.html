@@ -7,12 +7,17 @@
 <h1>{{ title }}</h1>
     
     <p>{{ content }} </p>
+    <form action="{% url 'encyclopedia:edit' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" name="edition" label="edit" value="{{ content }}">Editar</button> 
+    </form>
+
 {% endif %}
 {% if result %}  
 <h3>Results of your search...</h3>
     <p></p>
-    {% for res in result %}
+    
     <a href="/{{ result }}"> {{ result }}</a>
-    {% endfor %}
+    
 {% endif %}
 {% endblock %}
