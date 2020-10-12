@@ -11,11 +11,15 @@
 
 {% block body %}
     <h2>Edit Encyclopedia Entry</h2>
-    <div style = "max-width:600px;">
-        <form>
-            <input style= "min-width: 400px" type="text" value="{{ edition }}">mete ahi</input>
-        </form>
-    </div>
+            
+        <div style = "max-width:600px;">
+            {% load crispy_forms_tags %}
+    
+                {% csrf_token %}
+            
+    
+            {% crispy form %}
+        </div>
 
 
 {% endblock %}

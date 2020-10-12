@@ -17,6 +17,13 @@ class NewPageForm(forms.Form):
     helper.form_method = 'POST'
     helper.add_input(Submit('submit', 'Submit'))
 
+
+class NewEntryForm(forms.Form):
+    textarea = forms.CharField()
+    helper = FormHelper()
+    helper.form_method = 'POST'
+    helper.add_input(Submit('submit', 'Submit'))
+
    
   
  
@@ -42,8 +49,6 @@ def index(request):
 
 
 def title(request, title):
-    edition = request.GET.get('edition')
-    print(f"edition es {edition}")
     query = request.GET.get('q')
     if query:
         title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
@@ -101,9 +106,49 @@ def add(request):
    
 
 def edit(request):
-    edition = request.POST.get('edition')
-    print(f"edition es {edition}")
-    if edition:
+    title = request.POST.get('edition')
+    content = util.get_entry(title)
+    print(f"titulo is {title} and content is {content}")
+    if request.method == "POST":
+        form = NewEntryForm(request.POST)
+        if form.is_valid():
+            content = form.cleaned_data['textarea']
+            util.save_entry(title, content)
+            print("lo guardo")
+            return render(request, "encyclopedia/title.html", {"title":title, "content":content}) 
+        else:
+            form = NewEntryForm()
+            return render(request, "encyclopedia/edit.html", {
+                "form": form
+            })
+    else:
         return render(request, "encyclopedia/edit.html", {
-            "edition": edition
+            "form": NewEntryForm()
         })
+   
+   
+    
+    
+    
+    '''   
+    title = request.POST.get('edition')
+    content = util.get_entry(title)
+    print(f"edition es {title}, contenido es {content}")
+    form = NewEntryForm()
+    if request.method == "POST":
+        form = NewEntryForm(request.POST) 
+        content = form.cleaned_data['textarea']
+        return render(request, "encyclopedia/index.html", {
+            "title": content
+        }) 
+    else:
+        form = NewEntryForm()
+        return render(request, "encyclopedia/edit.html") 
+     #new = util.get_entry(query)
+    #if query in lista:
+    
+    if save is not title:
+        return render(request, "encyclopedia/title.html", {
+            "title": title, "content":content
+            }) 
+    '''
