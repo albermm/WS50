@@ -7,9 +7,9 @@
 <h1>{{ title }}</h1>
     
     <p>{{ content }} </p>
-    <form action="{% url 'encyclopedia:edit' %}" method="POST">
+    <form action="{% url 'encyclopedia:edit' %}">
         {% csrf_token %}
-        <button type="submit" name="edition" label="edit" value="{{ title }}">Editar</button> 
+        <button type="text" name="title" label="edit" value="{{ title }}">Editar</button> 
     </form>
 
 {% endif %}

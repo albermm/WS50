@@ -8,6 +8,7 @@ urlpatterns = [
     path("<str:title>", views.title, name="title"),
     path("error/", views.title, name="error"),
     path("edit/", views.edit, name="edit"),
+    path("random/", views.random, name="random"),
     path("add/",  views.add, name="add")
   
    ]

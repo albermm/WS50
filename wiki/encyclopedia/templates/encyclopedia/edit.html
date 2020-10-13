@@ -8,12 +8,13 @@
 
     
 {% endblock %}}
-
+    
 {% block body %}
     <h2>Edit Encyclopedia Entry</h2>
             
+
         <div style = "max-width:600px;">
-            {{ request.session.edition }}
+           
             {% load crispy_forms_tags %}
     
                 {% csrf_token %}

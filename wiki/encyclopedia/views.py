@@ -4,6 +4,8 @@ from django import forms
 from django.urls import reverse
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
+import random
+import markdown2
 
 from . import util
 
@@ -19,26 +21,25 @@ class NewPageForm(forms.Form):
 
 
 class NewEntryForm(forms.Form):
-    textarea = forms.CharField()
+    textarea = forms.CharField(initial='')
     helper = FormHelper()
     helper.form_method = 'POST'
     helper.add_input(Submit('submit', 'Submit'))
 
-   
+'''
+class NewEntry(admin.ModelAdmin):
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(MyModelAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['textare'].initial = ''
+        obj.textarea = obj.related_model.prepopulating_model_field
+    return form
+'''   
   
  
 # Create your views here.
 
 
 def index(request):
-    page = 'empty'
-    '''
-    if "page" not in request.session:
-        request.session["page"] = []
-        return render(request, "encyclopedia/index.html", {
-            "page": request.session["page"]
-        })
-    '''         
     query = request.GET.get('q')
     if query:
         title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
@@ -51,8 +52,6 @@ def index(request):
 
 
 def title(request, title):
-        
-
     query = request.GET.get('q')
     if query:
         title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
@@ -91,7 +90,7 @@ def add(request):
             print(f"exist {exist} y titulo {title}")
             if exist == None:
                 util.save_entry(title, content)
-                print("lo guardo")
+                print("anadido, lo guardo")
                 return render(request, "encyclopedia/title.html", {"title":title, "content":content}) 
             else:
                 print("Existe ya")
@@ -108,11 +107,6 @@ def add(request):
    
 
 def edit(request):
-    '''
-    temp = request.POST.get('edition')
-    content = util.get_entry(temp)
-    print(f"titulo is {temp} and content is {content}")
-   '''
     if request.method == "POST":
         form = NewEntryForm(request.POST)
         if form.is_valid():
@@ -128,14 +122,16 @@ def edit(request):
                 "form": form
             })
     else:
+        page = request.session['page']
+        content = util.get_entry(page)
+        print(f"aqui llego {page}, el contenido es {content}")
+        form = NewEntryForm(initial={'textarea':content})
         return render(request, "encyclopedia/edit.html", {
-            "form": NewEntryForm()
+            "form": form
         })
    
-            #page = form.save()#(commit=False)
-            #page = form.cleaned_data["page"]
-            #request.session["pages"] += [page]
-            #page.save() 
-            #return redirect('page_detail', id=page.id)
-            #return HttpResponseRedirect(reverse("wiki:index"))
     
+def random(request):
+    return render(request, "encyclopedia/random.html", {
+        "entries":  random.choice(util.list_entries())
+    })
