@@ -15,14 +15,14 @@ class NewSearchForm(forms.Form):
 
 class NewPageForm(forms.Form):
     title = forms.CharField(label= 'Title')
-    textarea = forms.CharField(help_text= ' write encyclopedia content', widget=forms.Textarea(attrs={"cols": 5,"rows":10}))
+    textarea = forms.CharField(label= 'Add Description', help_text= ' write encyclopedia content', widget=forms.Textarea(attrs={"cols": 5,"rows":10}))
     helper = FormHelper()
     helper.form_method = 'POST'
     helper.add_input(Submit('submit', 'Submit'))
 
 
 class NewEntryForm(forms.Form):
-    textarea = forms.CharField(initial='')
+    textarea = forms.CharField(label= 'Add Changes', initial='', widget=forms.Textarea(attrs={"cols": 5,"rows":10}))
     helper = FormHelper()
     helper.form_method = 'POST'
     helper.add_input(Submit('submit', 'Submit'))
@@ -129,6 +129,11 @@ def edit(request):
    
     
 def randpage(request):
-    return render(request, "encyclopedia/randpage.html", {
-        "entry": random.choice(util.list_entries())
-    })
+    query = request.GET.get('q')
+    if query:
+        title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
+        return render(request, "encyclopedia/title.html", {"title":title, "content":content, "result":result}) 
+    else:
+        return render(request, "encyclopedia/randpage.html", {
+            "entry": random.choice(util.list_entries())
+        })

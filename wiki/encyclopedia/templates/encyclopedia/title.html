@@ -8,7 +8,8 @@
     <p> {{ body|safe }}  </p>
     <form action="{% url 'encyclopedia:edit' %}">
         {% csrf_token %}
-        <button type="text" name="title" label="edit" value="{{ title }}">Editar</button> 
+        <button class="btn btn-primary" type="text" name="title" label="edit" value="{{ title }}">Edit</button> 
+        
     </form>
 
 {% endif %}
