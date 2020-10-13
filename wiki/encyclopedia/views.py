@@ -131,7 +131,7 @@ def edit(request):
         })
    
     
-def random(request):
-    return render(request, "encyclopedia/random.html", {
-        "entries":  random.choice(util.list_entries())
+def randpage(request):
+    return render(request, "encyclopedia/randpage.html", {
+        "entry": random.choice(util.list_entries())
     })
