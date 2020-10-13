@@ -4,9 +4,8 @@
 
 {% block body %}
 {% if title %}
-<h1>{{ title }}</h1>
-    
-    <p>{{ content }} </p>
+   
+    <p> {{ body|safe }}  </p>
     <form action="{% url 'encyclopedia:edit' %}">
         {% csrf_token %}
         <button type="text" name="title" label="edit" value="{{ title }}">Editar</button> 

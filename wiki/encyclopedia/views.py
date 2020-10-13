@@ -6,6 +6,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 import random
 import markdown2
+from markdown2 import Markdown
 
 from . import util
 
@@ -26,16 +27,7 @@ class NewEntryForm(forms.Form):
     helper.form_method = 'POST'
     helper.add_input(Submit('submit', 'Submit'))
 
-'''
-class NewEntry(admin.ModelAdmin):
-    def get_form(self, request, obj=None, **kwargs):
-        form = super(MyModelAdmin, self).get_form(request, obj, **kwargs)
-        form.base_fields['textare'].initial = ''
-        obj.textarea = obj.related_model.prepopulating_model_field
-    return form
-'''   
-  
- 
+
 # Create your views here.
 
 
@@ -61,10 +53,13 @@ def title(request, title):
         if util.get_entry(title) == None:
             return render(request, "encyclopedia/error.html")
         else:   
+            markdowner = Markdown()  
+            body = markdowner.convert(content)  
             request.session['page'] = title
             page = request.session['page']
-            print(f"page en title es {page}")
-            return render(request, "encyclopedia/title.html", {"title":title, "content":content}) 
+            return render(request, "encyclopedia/title.html", {
+                "title":title, "body":body
+            }) 
     
 
 def search(request, query):
