@@ -64,7 +64,9 @@ def title(request, title):
 
 def search(request, query):
     lista = util.list_entries()
-    result = next((s for s in lista if query in s)) 
+    result = []
+    result = [i for i in lista if query.lower() in i.lower()]
+    print(f"resultados son {result}") 
     content = util.get_entry(query)
     if query in lista:
         resultado = {"query": query, "content":content, "result":""}

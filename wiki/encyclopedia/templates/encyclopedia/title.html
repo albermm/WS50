@@ -15,8 +15,11 @@
 {% if result %}  
 <h3>Results of your search...</h3>
     <p></p>
-    
-    <a href="/{{ result }}"> {{ result }}</a>
+    <ul>
+        {% for res in result %}
+            <li><a href="/{{ res }}"> {{ res }}</a></li>
+        {% endfor %}
+    </ul>
     
 {% endif %}
 {% endblock %}
