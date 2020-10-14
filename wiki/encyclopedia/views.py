@@ -55,10 +55,11 @@ def title(request, title):
         else:   
             markdowner = Markdown()  
             body = markdowner.convert(content)  
+            content = body
             request.session['page'] = title
             page = request.session['page']
             return render(request, "encyclopedia/title.html", {
-                "title":title, "body":body
+                "title":title, "content":content
             }) 
     
 
@@ -66,14 +67,12 @@ def search(request, query):
     lista = util.list_entries()
     result = []
     result = [i for i in lista if query.lower() in i.lower()]
-    print(f"resultados son {result}") 
     content = util.get_entry(query)
     if query in lista:
         resultado = {"query": query, "content":content, "result":""}
         return resultado
     elif result:
         resultado = {"query": "", "content":"", "result":result}
-        print ("resultado: ", result)
         return resultado
 
 
@@ -84,10 +83,12 @@ def add(request):
             title = form.cleaned_data['title']
             content = form.cleaned_data['textarea']
             exist = util.get_entry(title)
-            print(f"exist {exist} y titulo {title}")
             if exist == None:
                 util.save_entry(title, content)
-                print("anadido, lo guardo")
+                print(f"anadido, lo guardo {title}, {content}")
+                markdowner = Markdown()  
+                body = markdowner.convert(content)  
+                content = body
                 return render(request, "encyclopedia/title.html", {"title":title, "content":content}) 
             else:
                 print("Existe ya")
@@ -109,9 +110,10 @@ def edit(request):
         if form.is_valid():
             content = form.cleaned_data['textarea']
             page = request.session['page']
-            print(f"edition se llama {content} and page is {page}")
             util.save_entry(page, content)
-            print("lo guardo")
+            markdowner = Markdown()  
+            body = markdowner.convert(content)  
+            content = body
             return render(request, "encyclopedia/title.html", {"title":page, "content":content}) 
         else:
             form = NewEntryForm()
