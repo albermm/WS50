@@ -34,7 +34,10 @@ class NewEntryForm(forms.Form):
 def index(request):
     query = request.GET.get('q')
     if query:
-        title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
+        title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result'] 
+        markdowner = Markdown()  
+        body = markdowner.convert(content)  
+        content = body       
         return render(request, "encyclopedia/title.html", {"title":title, "content":content, "result":result}) 
     else:
         return render(request, "encyclopedia/index.html", {
@@ -47,6 +50,9 @@ def title(request, title):
     query = request.GET.get('q')
     if query:
         title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
+        markdowner = Markdown()  
+        body = markdowner.convert(content)  
+        content = body
         return render(request, "encyclopedia/title.html", {"title":title, "content":content, "result":result}) 
     else:  
         content = util.get_entry(title)
@@ -89,16 +95,19 @@ def add(request):
                 markdowner = Markdown()  
                 body = markdowner.convert(content)  
                 content = body
-                return render(request, "encyclopedia/title.html", {"title":title, "content":content}) 
+                return render(request, "encyclopedia/title.html", {
+                    "title":title, "content":content
+                }) 
             else:
                 print("Existe ya")
                 return render(request, "encyclopedia/error.html")
-          
+         
         else:
             form = NewPageForm()
             return render(request, "encyclopedia/add.html", {
                 "form": form
             })
+            
     return render(request, "encyclopedia/add.html", {
         "form": NewPageForm()
     })
@@ -133,7 +142,10 @@ def edit(request):
 def randpage(request):
     query = request.GET.get('q')
     if query:
-        title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']        
+        title, content, result = search(request, query)['query'], search(request, query)['content'], search(request, query)['result']  
+        markdowner = Markdown()  
+        body = markdowner.convert(content)  
+        content = body      
         return render(request, "encyclopedia/title.html", {"title":title, "content":content, "result":result}) 
     else:
         return render(request, "encyclopedia/randpage.html", {
