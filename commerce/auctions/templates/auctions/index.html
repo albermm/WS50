@@ -4,4 +4,19 @@
     <h2>Active Listings</h2>
 
     TODO
+
+
+    <ul>
+        {% for listing in listings %}
+        <div>
+            <li>Listing: {{ listing.title }}: {{ listing.description }}, starting bid:  {{ listing.startingbid }} $ </li>
+            <div>
+                <img src= {{ listing.image }} >
+            </div>
+        </div>    
+       
+
+        {% endfor %}
+    </ul>
+
 {% endblock %}
