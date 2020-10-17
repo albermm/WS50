@@ -8,6 +8,7 @@ from .models import Listings
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
 from django.views.generic import CreateView
+from django.views import View
 
 
 from .models import User
@@ -84,11 +85,13 @@ def create(request):
             print("form is valid")
             obj = form.save()
             print(f"esto es obj {obj}")
-            return HttpResponseRedirect('/index/')
+            return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/create.html", {
         'form': form
     })
+    
+
 
 def listing(request):
     pass
