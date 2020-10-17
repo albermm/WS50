@@ -3,10 +3,19 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.generic import CreateView
 from .models import Listings
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit
+from django.views.generic import CreateView
 
 
 from .models import User
+from .forms import addForm
+
+
+
+
 
 
 def index(request):
@@ -68,7 +77,18 @@ def register(request):
 
 
 def create(request):
-    pass
+    form = addForm()
+    if request.method == "POST":
+        form = addForm(request.POST)
+        if form.is_valid():
+            print("form is valid")
+            obj = form.save()
+            print(f"esto es obj {obj}")
+            return HttpResponseRedirect('/index/')
+    else:
+        return render(request, "auctions/create.html", {
+        'form': form
+    })
 
 def listing(request):
     pass
