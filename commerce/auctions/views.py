@@ -12,7 +12,7 @@ from django.views import View
 
 
 from .models import User
-from .forms import addForm
+from .forms import *
 
 
 
@@ -77,10 +77,11 @@ def register(request):
         return render(request, "auctions/register.html")
 
 
+
 def create(request):
-    form = addForm()
+    form = NewListingForm()
     if request.method == "POST":
-        form = addForm(request.POST)
+        form = NewListingForm(request.POST)
         if form.is_valid():
             print("form is valid")
             obj = form.save()
@@ -90,7 +91,6 @@ def create(request):
         return render(request, "auctions/create.html", {
         'form': form
     })
-    
 
 
 def listing(request, listing_id):
@@ -98,3 +98,5 @@ def listing(request, listing_id):
     return render(request, "auctions/listing.html", {
         "listing": listing
     })    
+
+
