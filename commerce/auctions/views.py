@@ -11,7 +11,7 @@ from django.views.generic import CreateView
 from django.views import View
 
 
-from .models import User
+from .models import *
 from .forms import *
 
 
@@ -95,8 +95,18 @@ def create(request):
 
 def listing(request, listing_id):
     listing = Listings.objects.get(listing_id=listing_id)
-    return render(request, "auctions/listing.html", {
+    buyer = Buyer.objects.all()
+    form = WatchForm()
+    if request.method == "POST":
+        obj = form.save()
+        #Buyer.ownership = "watching"
+        return render(request, "auctions/listing.html", {
         "listing": listing
+        }) 
+    else:
+        return render(request, "auctions/listing.html", {
+        "listing": listing, 
+        'form': form
     })    
 
 
