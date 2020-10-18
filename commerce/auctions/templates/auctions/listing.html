@@ -1,0 +1,13 @@
+
+{% extends "auctions/layout.html" %}
+
+
+{% block body %}
+<h1>Listings {{ listing.id }}</h1>
+<ul>
+    <li>Origin: {{ listing.title }}</li>
+    <li>Destination: {{ listing.description }}</li>
+    <li>Duration: {{ listing.startingbid }} $ </li>
+</ul>
+<a href="{% url 'index' %}">All Listings</a>
+{% endblock %}

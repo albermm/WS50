@@ -12,7 +12,9 @@
                 <div class="col-md-4"> 
                     <div class="thumbnail"> 
                         <div>
-                            <img src= {{ listing.image }} style="width: 100%;">
+                            <a href="{% url 'listing' listing.listing_id %}">   
+                                <img src= {{ listing.image }} style="width: 100%;">
+                            </a>
                         </div>
                         <div class="caption">
                             <h3>{{ listing.title }}</h3>
