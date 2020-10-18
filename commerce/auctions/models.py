@@ -25,7 +25,10 @@ class Bids(models.Model):
     ('Open', 'Closed'),
     ('Won', 'Lost'),
     ]
+<<<<<<< HEAD
     username = models.ForeignKey(User, on_delete=models.CASCADE)
+=======
+>>>>>>> commerce/form
     bid_id = models.AutoField(primary_key= True)
     amount = models.IntegerField()
     status = models.CharField(max_length=6, choices=STATUS_CHOICES)
@@ -46,9 +49,17 @@ class Buyer(models.Model):
 
 
 class BuyertoBids(models.Model):
+<<<<<<< HEAD
     username = models.ForeignKey(User, on_delete=models.CASCADE)
     bid = models.ForeignKey(Bids, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.username}: tiene estas bids: {self.bid}"
+=======
+    buyer= models.ForeignKey(Buyer, on_delete=models.CASCADE)
+    bid = models.ForeignKey(Bids, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.buyer}: tiene estas bids: {self.bid}"
+>>>>>>> commerce/form
 

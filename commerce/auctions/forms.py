@@ -4,12 +4,11 @@ from crispy_forms.layout import Layout, Submit
 from django.views.generic import CreateView
 from django.forms import ModelForm
 
-from .models import User, Listings
+from .models import *
 
 
-class addForm(forms.Form):
-
-    model = Listings
+class NewListingForm(forms.ModelForm):
+    
     title= forms.CharField(
         label= "Insert title for your listing",
         help_text= "Title",
@@ -22,7 +21,7 @@ class addForm(forms.Form):
         max_length= 500,
         required=True,
     )
-    bid = forms.IntegerField(
+    startingbid = forms.IntegerField(
         label = "Starting bid",
         initial= 0,
         required=True,
@@ -37,7 +36,34 @@ class addForm(forms.Form):
         max_length=64,
 
     )
-    helper = FormHelper()
-    helper.form_method = 'POST'
-    helper.add_input(Submit('submit', 'Submit'))
+
+    def __init__(self, *args, **kwargs):
+        super(NewListingForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout()
+        self.helper.form_id = 'id-NewListingForm'
+        self.helper.form_class = 'NewListingForm'
+        self.helper.form_method = 'POST'
+        self.helper.add_input(Submit('submit', 'Save Listing', css_class='btn btn-primary'))
+
+    class Meta:
+        model = Listings
+        fields = ['title', 'description', 'startingbid', 'image', 'category']
+
+
+
+class WatchForm(forms.ModelForm):
     
+    def __init__(self, *args, **kwargs):
+        super(WatchForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout()
+        self.helper.form_id = 'id-WatchForm('
+        self.helper.form_class = 'WatchForm('
+        self.helper.form_method = 'POST'
+        self.helper.add_input(Submit('submit', 'Add to Watchlist', css_class='btn btn-primary'))
+
+    class Meta:
+        model = Buyer
+        fields = ['listing', 'ownership']
+   

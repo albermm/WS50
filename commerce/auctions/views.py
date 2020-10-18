@@ -8,10 +8,11 @@ from .models import Listings
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
 from django.views.generic import CreateView
+from django.views import View
 
 
-from .models import User
-from .forms import addForm
+from .models import *
+from .forms import *
 
 
 
@@ -76,19 +77,36 @@ def register(request):
         return render(request, "auctions/register.html")
 
 
+
 def create(request):
-    form = addForm()
+    form = NewListingForm()
     if request.method == "POST":
-        form = addForm(request.POST)
+        form = NewListingForm(request.POST)
         if form.is_valid():
             print("form is valid")
             obj = form.save()
             print(f"esto es obj {obj}")
-            return HttpResponseRedirect('/index/')
+            return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/create.html", {
         'form': form
     })
 
-def listing(request):
-    pass
+
+def listing(request, listing_id):
+    listing = Listings.objects.get(listing_id=listing_id)
+    buyer = Buyer.objects.all()
+    form = WatchForm()
+    if request.method == "POST":
+        obj = form.save()
+        #Buyer.ownership = "watching"
+        return render(request, "auctions/listing.html", {
+        "listing": listing
+        }) 
+    else:
+        return render(request, "auctions/listing.html", {
+        "listing": listing, 
+        'form': form
+    })    
+
+
