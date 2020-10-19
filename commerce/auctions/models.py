@@ -42,6 +42,6 @@ class Status(models.Model):
     ]
     username = models.OneToOneField(User, on_delete=models.CASCADE, primary_key= True)
     ownership= models.CharField(max_length=10, choices=OWN_CHOICES)
-    listing = models.ForeignKey(Listings, on_delete=models.CASCADE)
+    listing = models.OneToOneField(Listings, on_delete=models.CASCADE)
 
 

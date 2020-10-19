@@ -51,11 +51,14 @@ class NewListingForm(forms.ModelForm):
         fields = ['title', 'description', 'startingbid', 'image', 'category']
 
 
-'''
-class WatchForm(forms.ModelForm):
-    
+
+class StatusForm(forms.ModelForm):
+    listing= forms.IntegerField()
+    ownership = forms.CharField()
+    username = forms.CharField()
+
     def __init__(self, *args, **kwargs):
-        super(WatchForm, self).__init__(*args, **kwargs)
+        super(StatusForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout()
         self.helper.form_id = 'id-WatchForm('
@@ -64,6 +67,6 @@ class WatchForm(forms.ModelForm):
         self.helper.add_input(Submit('submit', 'Add to Watchlist', css_class='btn btn-primary'))
 
     class Meta:
-        model = Buyer
-        fields = ['listing', 'ownership']
-'''   
+        model = Status
+        fields = ['listing', 'ownership', 'username']
+  
