@@ -51,7 +51,7 @@ class NewListingForm(forms.ModelForm):
         fields = ['title', 'description', 'startingbid', 'image', 'category']
 
 
-
+'''
 class WatchForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
@@ -66,4 +66,4 @@ class WatchForm(forms.ModelForm):
     class Meta:
         model = Buyer
         fields = ['listing', 'ownership']
-   
+'''   
