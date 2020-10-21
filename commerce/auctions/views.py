@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
-from django.views.generic import CreateView
+from django.views.generic import ListView, DetailView, CreateView
 from django.views import View
 
 
@@ -98,22 +98,17 @@ def listing(request, listing_id):
     })    
 
 
-def watchlist(request):
-    listingtotal = Listings.objects.get(listing_id=request.POST['listing_id'])
-    listing = listingtotal.listing_id
-    username = request.user.get_username()
-    status = Status()
-    print(f"status es: {status}")
-    status.ownership= 'watchlist'
-    status.listing= Listings.objects.get(listing_id=request.POST['listing_id'])
-    status.save()
-    print(f"status es: {status.ownership}")
-    form = StatusForm(initial={
-        'listing': listing.listing_id,
-        'ownership': "watchlist",
-        'username': username,           
-    })
-    return render(request, "auctions/watchlist.html", {
-        'form': form
-    })
+class AddCommentView(CreateView):
+    model = Comments
+    template_name = 'listing.html'
+    fields = ['__all__']
+
+class commentsView(ListView):
+    model = Comments
+    template_name = 'listing.html'
     
+
+class AddListingView(CreateView):
+    model = Listings
+    template_name = 'add_listing.html'
+    fields = ['title', 'description', 'startingbid', 'image', 'category']

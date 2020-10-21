@@ -4,4 +4,4 @@ from .models import *
 # Register your models here.
 admin.site.register(Listings)
 admin.site.register(Bids)
-admin.site.register(Status)
+

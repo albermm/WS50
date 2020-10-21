@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 #from . import models
 
 
@@ -18,6 +19,8 @@ class Listings(models.Model):
     def __str__(self):
         return f"{self.listing_id}: {self.title}, description: {self.description}, initial bid: {self.startingbid}, category: {self.category}"
     
+    def get_absolute_url(self):
+        return reverse('add_listing', args=str(self.id))
 
 class Bids(models.Model):
     
@@ -35,13 +38,10 @@ class Bids(models.Model):
         return f"{self.bid_id}: {self.listing}, bid: {self.amount}, status of the bid: {self.status}"
 
 
-class Status(models.Model):
-    OWN_CHOICES = [
-    ('owner', 'watchlist'),
-    ('Won', 'Lost'),
-    ]
-    username = models.OneToOneField(User, on_delete=models.CASCADE, primary_key= True)
-    ownership= models.CharField(max_length=10, choices=OWN_CHOICES)
-    listing = models.OneToOneField(Listings, on_delete=models.CASCADE)
+class Comments (models.Model):
+    title = models.CharField(max_length=64)
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField(max_length=500)
 
-
+    def __str__(self):
+        return self.title + '|' + str(self.username)

@@ -52,21 +52,3 @@ class NewListingForm(forms.ModelForm):
 
 
 
-class StatusForm(forms.ModelForm):
-    listing= forms.IntegerField()
-    ownership = forms.CharField()
-    username = forms.CharField()
-
-    def __init__(self, *args, **kwargs):
-        super(StatusForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.layout = Layout()
-        self.helper.form_id = 'id-WatchForm('
-        self.helper.form_class = 'WatchForm('
-        self.helper.form_method = 'POST'
-        self.helper.add_input(Submit('submit', 'Add to Watchlist', css_class='btn btn-primary'))
-
-    class Meta:
-        model = Status
-        fields = ['listing', 'ownership', 'username']
-  

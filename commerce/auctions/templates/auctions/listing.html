@@ -1,16 +1,16 @@
 {% extends "auctions/layout.html" %}
 {% load static %}
 
-
+{% block title %}
+{{ listing.title }}
+{% endblock %}
 
 {% block body %}
 <div class="col-md-4"> 
     <h2> Listing: {{ listing.listing_id }} </h2>
     <div class="thumbnail"> 
         <div>
-            
             <img src= {{ listing.image }} style="width: 100%;">
-            
         </div>
         <div class="caption">
             <h3>{{ listing.title }}</h3>
@@ -19,17 +19,13 @@
         </div>
     </div>  
     <div>
-        <form action="{% url 'watchlist' %}" method="POST">
-            {% csrf_token %}
-            <button type="submit" name="listing_id" value="{{ listing.listing_id }}">Add to Watchlist</button>
-        </form>
-    </div>
-    <div>
-        <a href="{% url 'watchlist' %}">watchlist</a>
-    </div>
-    <div>
-        <a href="{% url 'index' %}">All Listings</a>
+        <a href="{% url 'index' %}" class="btn btn-light">All Listings</a>
     </div>
 </div>
-
+<div class="col-md-4"> 
+    {% for comment in object_list %}
+        {{ comment.username }}
+        {{ comment.title }}
+        {{ comment.body }}
+    {% endfor %}
 {% endblock %}
