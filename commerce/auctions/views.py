@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
@@ -99,16 +99,13 @@ def listing(request, listing_id):
 
 
 class AddCommentView(CreateView):
-    model = Comments
-    template_name = 'listing.html'
-    fields = ['__all__']
+        model = Comments
+        template_name = 'add_comment.html'
+        form_class = PostForm
 
-class commentsView(ListView):
-    model = Comments
-    template_name = 'listing.html'
-    
 
-class AddListingView(CreateView):
-    model = Listings
-    template_name = 'add_listing.html'
-    fields = ['title', 'description', 'startingbid', 'image', 'category']
+
+def LikeView(request, pk):
+    listing = get_object_or_404(Listings, listing_id=request.POST.get('watchlist_id')) #watch_id is the name we gave to the button in the template
+    listing.watchlist.add(request.user) #save the user as well
+    return HttpResponseRedirect(reverse('listing', args=[str(pk)]))

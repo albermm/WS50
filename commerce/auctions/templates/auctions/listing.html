@@ -19,13 +19,15 @@
         </div>
     </div>  
     <div>
-        <a href="{% url 'index' %}" class="btn btn-light">All Listings</a>
+        <a href="{% url 'add_comment' %}" class="btn btn-info" role="button">Link Button</a>
     </div>
 </div>
-<div class="col-md-4"> 
-    {% for comment in object_list %}
-        {{ comment.username }}
-        {{ comment.title }}
-        {{ comment.body }}
-    {% endfor %}
+<div>    
+    <form action="{% url 'watchlist' listing.pk %}" method="POST">
+        {% csrf_token %}
+        <button type="submit", name="watchlist_id", value="{{ listing.listing_id }}", class="btn btn-primary btn-sm">watchlist </button>
+    </form>
+</div>
+
+
 {% endblock %}

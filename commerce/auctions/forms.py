@@ -7,6 +7,18 @@ from django.forms import ModelForm
 from .models import *
 
 
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Comments
+        fields = ('title', 'username', 'body',)
+
+        widget = {
+            'title': forms.TextInput(attrs={'class':'form-control'}),
+            'body': forms.Textarea(attrs={'class':'form-control'}),
+        }
+
+
+
 class NewListingForm(forms.ModelForm):
     
     title= forms.CharField(
@@ -49,6 +61,4 @@ class NewListingForm(forms.ModelForm):
     class Meta:
         model = Listings
         fields = ['title', 'description', 'startingbid', 'image', 'category']
-
-
 

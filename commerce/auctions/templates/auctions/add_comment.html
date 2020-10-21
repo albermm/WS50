@@ -1,0 +1,17 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<h1>Add Comments...</h1>
+<br/><br/>
+
+<div class="form-group">
+    <form method="POST">
+        {% csfr_token %}
+        {% form.as_p %}
+        <button class="btn btn-secondary">Create</button>
+    </form>    
+</div>
+{% endblock %}
+
+ 
