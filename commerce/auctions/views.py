@@ -7,6 +7,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
 from django.views.generic import ListView, DetailView, CreateView
 from django.views import View
+from django.db.models import Max
 
 
 from .models import *
@@ -98,7 +99,13 @@ def listing(request, listing_id):
         obj.username = request.user
         obj.listing = Listings.objects.get(listing_id=listing_id)
         obj.amount = request.POST.get('bid_amount')
-        obj.save()
+        bidlist = Bids.objects.filter(listing = listing_id).aggregate(Max('amount'))
+        
+        print(f"bidlist es {bidlist}, current bid is {obj.amount}")
+        if obj.amount == bidlist:
+            obj.save()
+            print(f"salvado y comparado")
+
     return render(request, "auctions/listing.html", {
         "listing": listing, 
     })    
