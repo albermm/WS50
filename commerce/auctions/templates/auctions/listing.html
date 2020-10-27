@@ -17,24 +17,29 @@
             <p>{{ listing.description }}</p>
             <p>starting bid:</p> <p style="color: blue;"> {{ listing.startingbid }} $</p>
         </div>
-    </div>  
+        <div>    
+            <form action="{% url 'watchlist' listing.pk %}" method="POST">
+                {% csrf_token %}
+                <button type="submit", name="watchlist_id", value="{{ listing.listing_id }}", class="btn btn-info">Add to Watchlist </button>
+            </form>
+        </div>
+    </div> 
+    <div class="form-group">  
+        <form action="{% url 'listing' listing.pk %}" method="POST">
+            {% csrf_token %}
+            <input type="text", name="bid_amount", value="{{ bid.amount }}"></input>
+            <button type="submit", name="bid_id", value="{{ bid.bid_id }}", class="btn btn-info">Bid </button>
+        </form>
+    </div> 
     <div>
-        <a href="{% url 'add_comment' %}" class="btn btn-info" role="button">Link Button</a>
+        <div>
+            <a href="{% url 'add_comment' %}" class="btn btn-info" role="button">Add Comment</a>
+        </div>
+        
     </div>
 </div>
-<div>    
-    <form action="{% url 'watchlist' listing.pk %}" method="POST">
-        {% csrf_token %}
-        <button type="submit", name="watchlist_id", value="{{ listing.listing_id }}", class="btn btn-primary btn-sm">watchlist </button>
-    </form>
-</div>
-<div>    
-    <form action="{% url 'listing' listing.pk %}" method="POST">
-        {% csrf_token %}
-        <input type="text", name="bid_amount", value="{{ bid.amount }}">metele apuesta></input>
-        <button type="submit", name="bid_id", value="{{ bid.bid_id }}", class="btn btn-primary btn-sm">bid </button>
-    </form>
-</div>
+
+
 
 
 {% endblock %}
