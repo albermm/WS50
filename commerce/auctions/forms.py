@@ -62,3 +62,24 @@ class NewListingForm(forms.ModelForm):
         model = Listings
         fields = ['title', 'description', 'startingbid', 'image', 'category']
 
+
+class NewBidForm(forms.ModelForm):
+    
+    bid_amount= forms.IntegerField(
+        label= "Add your bid",
+        help_text= "It must be higher than the exisitng one",
+        required=True,
+    )
+
+    class Meta:
+        model = Bids
+        fields = ['amount', 'listing', 'username']
+
+    def __init__(self, *args, **kwargs):
+        super(NewBidForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout()
+        self.helper.form_id = 'id-NewBidForm'
+        self.helper.form_class = 'NewBidForm'
+        self.helper.form_method = 'POST'
+        self.helper.add_input(Submit('submit', 'Add Bid', css_class='btn btn-primary')) 

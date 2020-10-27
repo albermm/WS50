@@ -93,6 +93,12 @@ def create(request):
 
 def listing(request, listing_id):
     listing = Listings.objects.get(listing_id=listing_id)
+    if request.method == "POST":
+        obj = Bids()
+        obj.username = request.user
+        obj.listing = Listings.objects.get(listing_id=listing_id)
+        obj.amount = request.POST.get('bid_amount')
+        obj.save()
     return render(request, "auctions/listing.html", {
         "listing": listing, 
     })    
@@ -109,3 +115,23 @@ def LikeView(request, pk):
     listing = get_object_or_404(Listings, listing_id=request.POST.get('watchlist_id')) #watch_id is the name we gave to the button in the template
     listing.watchlist.add(request.user) #save the user as well
     return HttpResponseRedirect(reverse('listing', args=[str(pk)]))
+
+
+def bids(request, listing_id):
+    form = NewBidForm()
+    #listing = Listings.objects.get(listing_id=listing_id)
+
+    if request.method == "POST":
+        form = NewBidForm(request.POST)
+        if form.is_valid():
+            obj = Bids()
+            obj.username = request.user
+            obj.listing = request.POST.get('listing_id')
+            obj.bid_amount = form.cleaned_data['bid_amount']
+            obj.save()
+        return HttpResponseRedirect('/')
+    else:
+        listing = Listings.objects.get(listing_id=listing_id)
+        return render(request, "auctions/listing.html", {
+            "listing": listing, 
+        })    

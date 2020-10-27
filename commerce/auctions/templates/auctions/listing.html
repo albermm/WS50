@@ -28,6 +28,13 @@
         <button type="submit", name="watchlist_id", value="{{ listing.listing_id }}", class="btn btn-primary btn-sm">watchlist </button>
     </form>
 </div>
+<div>    
+    <form action="{% url 'listing' listing.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="text", name="bid_amount", value="{{ bid.amount }}">metele apuesta></input>
+        <button type="submit", name="bid_id", value="{{ bid.bid_id }}", class="btn btn-primary btn-sm">bid </button>
+    </form>
+</div>
 
 
 {% endblock %}
