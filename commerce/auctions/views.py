@@ -99,13 +99,16 @@ def listing(request, listing_id):
         obj.username = request.user
         obj.listing = Listings.objects.get(listing_id=listing_id)
         obj.amount = request.POST.get('bid_amount')
-        bidlist = Bids.objects.filter(listing = listing_id).aggregate(Max('amount'))
-        
-        print(f"bidlist es {bidlist}, current bid is {obj.amount}")
-        if obj.amount == bidlist:
+        bidlist = Bids.objects.filter(listing_id = listing_id).aggregate(Max('amount'))
+        print(f"bidlist es {bidlist},")
+        currentbid = int(request.POST.get('bid_amount'))
+        maxbid = int(bidlist['amount__max'])
+        startingbid = int(listing.startingbid)
+        print(f"bidlist es {maxbid}, start bid is {startingbid}, current bid is {currentbid}")
+        if currentbid > startingbid and currentbid > maxbid:
             obj.save()
             print(f"salvado y comparado")
-
+        
     return render(request, "auctions/listing.html", {
         "listing": listing, 
     })    
